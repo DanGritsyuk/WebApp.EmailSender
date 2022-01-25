@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=WebApp.EmailSender;Trusted_Connection=True;MultipleActiveResultSets=true",
+    "DevConnection": "Server=DAN-NB;Database=WebApp.EmailSender;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}

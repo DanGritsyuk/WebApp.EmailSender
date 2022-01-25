@@ -1,0 +1,9 @@
+{
+  "EmailConfiguration": {
+    "From": "sender-test@gritsyuk.ru",
+    "SmtpServer": "smtp.mail.ru",
+    "Port": 465,
+    "Username": "sender-test@gritsyuk.ru",
+    "Password": "ADN3atI%eft2"
+  }
+}
