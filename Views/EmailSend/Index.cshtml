@@ -1,16 +1,8 @@
 ﻿@using WebAppEmailSender.Models
-@model MailsViewModel
+@model StatusViewModel
 
-<!DOCUME html>
-
-    <html>
-    <head>
-    </head>
-    <body>
-        <header>
-        </header>
-        <div class="container">
-            <p>Письмо отправлено...</p>
-        </div>
-    </body>
-</html>
+@Model.Status | 
+@if (Model.FailedMessage != null)
+{
+    @Model.FailedMessage 
+}

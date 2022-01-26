@@ -13,7 +13,7 @@ namespace WebAppEmailSender
     public class Startup
     {
 
-        private IConfigurationRoot _configString;
+        private readonly IConfigurationRoot _configString;
 
         public Startup(IHostEnvironment hostEnv)
         {
@@ -27,7 +27,7 @@ namespace WebAppEmailSender
         {
             services.AddDbContext<EmsDbContext>(options => options.UseSqlServer(_configString.GetConnectionString("DevConnection")));
             services.AddScoped<DbEmailSenderInfo>();
-            services.AddScoped<MailsViewModel>();
+            services.AddScoped<StatusViewModel>();
 
             var emailConfig = _configString.GetSection("EmailConfiguration").Get<SmptConfiguration>();
             services.AddSingleton(emailConfig);

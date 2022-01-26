@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Text.Json;
@@ -12,15 +11,13 @@ namespace WebAppEmailSender.Controllers
     [Route("api")]
     public class EmailSendController : Controller
     {
-        public EmailSendController(EmsDbContext context, IWebHostEnvironment appEnvironment, IEmailSender sender)
+        public EmailSendController(EmsDbContext context, IEmailSender sender)
         {
             _context = context;
-            _appEnvironment = appEnvironment;
             _emailSender = sender;
         }
 
         private readonly EmsDbContext _context;
-        private readonly IWebHostEnvironment _appEnvironment;
         private readonly IEmailSender _emailSender;
 
         // GET: api/emails/
@@ -46,7 +43,7 @@ namespace WebAppEmailSender.Controllers
             var mailStatus = _emailSender.SendEmailAsync(message);
             var thisEmailSender = GetThisEmSender();
 
-            string result = null;
+            string result;
             string failedMessage = null;
 
             if (mailStatus.Result == "OK")
@@ -64,7 +61,7 @@ namespace WebAppEmailSender.Controllers
             _context.Add(mail);
             _context.SaveChanges();
 
-            return View(new MailsViewModel());
+            return View(new StatusViewModel(result, failedMessage));
         }
 
         private DbEmailSenderInfo GetThisEmSender()
