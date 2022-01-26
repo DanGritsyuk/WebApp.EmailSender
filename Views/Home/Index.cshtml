@@ -7,7 +7,7 @@
     <body>
         <script>
             $(function () {
-                var mail = { subject: "Done.", body: "It's Work", recipients: ["denis@gritsyuk.ru", "denis.gritsuk@yandex.ru"] };
+                var mail = { subject: "Done.", body: "It's Work", recipients: ["denis@gritsyuk.ru"] };
                 $.ajax({
                     type: "POST",
                     data: JSON.stringify(mail),
@@ -16,6 +16,25 @@
                 });
             });
         </script>
-        
+
+        <div id="readme" class="Box-body readme blob js-code-block-container p-5 p-xl-6 ">
+            <article class="markdown-body entry-content container-lg" itemprop="text">
+                <h1 dir="auto"><a id="user-content-webappemailsender" class="anchor" aria-hidden="true" href="#webappemailsender"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>WebApp.EmailSender</h1>
+                <p dir="auto">Сервис для отправки писем</p>
+                <p dir="auto">Данный Web-сервис предназначен формировать и отправлять письма адресатам и логировать результат в БД. Он принимает POST запрос по url: /api/mails/. Тело запроса в формате json.</p>
+                <p dir="auto">Метод обработки:</p>
+                <ul dir="auto">
+                    <li>Формирует email и выполняет отправку при помощи библиотеки MailKit. Обратно контроллер получает статус "OK", либо сообщение об ошибки.</li>
+                    <li>Далее записывает результат в базу данных SQLServer. В записи указываются все поля, которые пришли в сообщении, а также дата создания и результат отправки в виде поля Result (значения OK/Failed) и FailedMessage (пустое, если нет ошибки).</li>
+                    <li>Сервис способен ответить на GET запросы по url /api/mails/. В результате запроса на этот url выдается список всех отправленных сообщений, сохраненных в БД, в формате json.</li>
+                </ul>
+                <p dir="auto">База данных состоит из двух таблиц: EmailSenderInfo и Mails. Первая содержит guid Web-сервиса, вторая список отправленных писем, связанных с Web-сервисом по внешнему ключу. Это способствует подключению к одной базе данных несколько web-сервисов. Каждый отдельный сервис хранит свой Guid в файле "App_Data/Config/ThisSender.config"</p>
+                <p dir="auto">
+                    Для разработки сервиса использовались Microsoft Visual Studio 2019, ASP.NET Core 3.1.
+                    База данных SQL Server, Entity Framework Core 5.0.13.
+                </p>
+            </article>
+        </div>
+
     </body>
 </html>

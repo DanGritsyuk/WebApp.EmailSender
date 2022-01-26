@@ -25,7 +25,7 @@ namespace WebAppEmailSender
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EmsDbContext>(options => options.UseSqlServer(_configString.GetConnectionString("DevConnection")));
+            services.AddDbContext<EmsDbContext>(options => options.UseSqlServer(_configString.GetConnectionString("DefaultConnection")));
             services.AddScoped<DbEmailSenderInfo>();
             services.AddScoped<MailViewModel>();
 
