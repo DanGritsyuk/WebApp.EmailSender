@@ -27,7 +27,7 @@ namespace WebAppEmailSender
         {
             services.AddDbContext<EmsDbContext>(options => options.UseSqlServer(_configString.GetConnectionString("DevConnection")));
             services.AddScoped<DbEmailSenderInfo>();
-            services.AddScoped<StatusViewModel>();
+            services.AddScoped<MailViewModel>();
 
             var emailConfig = _configString.GetSection("EmailConfiguration").Get<SmptConfiguration>();
             services.AddSingleton(emailConfig);

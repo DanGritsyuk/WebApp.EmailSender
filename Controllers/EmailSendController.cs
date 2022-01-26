@@ -9,7 +9,7 @@ using WebAppEmailSender.Models;
 namespace WebAppEmailSender.Controllers
 {
     [Route("api")]
-    public class EmailSendController : Controller
+    public class EmailSendController :Controller
     {
         public EmailSendController(EmsDbContext context, IEmailSender sender)
         {
@@ -37,31 +37,28 @@ namespace WebAppEmailSender.Controllers
         // POST: api/emails/
         [HttpPost]
         [Route("mails")]
-        public ViewResult Index(string subject, string body, string[] recipients)
+        public ViewResult Index([FromBody] MailViewModel email)
         {
-            var message = new Message(subject, body, recipients);
+            var message = new Message(email.Subject, email.Body, email.Recipients);
             var mailStatus = _emailSender.SendEmailAsync(message);
             var thisEmailSender = GetThisEmSender();
 
-            string result;
-            string failedMessage = null;
-
             if (mailStatus.Result == "OK")
             {
-                result = "OK";
+                email.Status = "OK";
             }
             else
             {
-                result = "Failed";
-                failedMessage = mailStatus.Result;
+                email.Status = "Failed";
+                email.FailMessage = mailStatus.Result;
             }
 
-            var mail = new DbMailInfo(subject, body, string.Join(", ", recipients), result, failedMessage, thisEmailSender);
+            var mailInfo = new DbMailInfo(email.Subject, email.Body, string.Join(", ", email.Recipients), email.Status, email.FailMessage, thisEmailSender);
 
-            _context.Add(mail);
+            _context.Add(mailInfo);
             _context.SaveChanges();
 
-            return View(new StatusViewModel(result, failedMessage));
+            return View(email);
         }
 
         private DbEmailSenderInfo GetThisEmSender()

@@ -2,36 +2,19 @@
 
     <html>
     <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     </head>
     <body>
-        <header>
-        </header>
-        <div class="container">
-            <form name="sendMail" action="/api/mails/" method="post">
-                <label for="recipients">Кому:</label>
-                <input id="addRecipients" validation="required" name="addRecipients" type="email" pattern="[a-z0-9._%+-]+@@[a-z0-9.-]+\.[a-z]{2, 4}$" style="width:100em" multiple /><br><br>
-                <label for="subject">Тема:</label>
-                <input type="text" id="subject" name="subject" style="width:100em"><br><br>
-                <button onclick="myFunction()">Отправить</button><br><br>
-                <textarea id="body" name="body" cols="200" rows="40"></textarea>
-            </form>
-        </div>
         <script>
-            function myFunction() {
-
-                var arrayOfStrings = document.getElementById("addRecipients").value.split(/[ ,]+/);
-
-                for (var i = 0; i < arrayOfStrings.length; i++) {
-                    var x = document.createElement("INPUT");
-                    x.setAttribute("type", "text");
-                    x.setAttribute("id", "recipients")
-                    x.setAttribute("name", "recipients")
-                    x.setAttribute("hidden", "hidden")
-                    x.setAttribute("value", arrayOfStrings[i]);
-                    document.forms["sendMail"].appendChild(x);
-                }
-                document.forms["sendMail"].submit();
-            }
+            $(function () {
+                var mail = { subject: "Done.", body: "It's Work", recipients: ["denis@gritsyuk.ru", "denis.gritsuk@yandex.ru"] };
+                $.ajax({
+                    type: "POST",
+                    data: JSON.stringify(mail),
+                    url: "api/mails",
+                    contentType: "application/json"
+                });
+            });
         </script>
         
     </body>
